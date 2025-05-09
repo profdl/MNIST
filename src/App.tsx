@@ -1,0 +1,46 @@
+import React, { useEffect } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
+import { VisualizationScene } from './components/VisualizationScene';
+import { DigitDetail } from './components/DigitDetail';
+import { LoadingScreen } from './components/LoadingScreen';
+import { useStore } from './store/store';
+
+// Add type declarations for JSX elements
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      mesh: any;
+      boxGeometry: any;
+      meshStandardMaterial: any;
+      ambientLight: any;
+      pointLight: any;
+      div: any;
+    }
+  }
+}
+
+function App() {
+  const { initializeModel } = useStore();
+
+  useEffect(() => {
+    initializeModel();
+  }, [initializeModel]);
+
+  return (
+    <div className="relative w-screen h-screen">
+      <LoadingScreen />
+      <DigitDetail />
+      <Canvas
+        camera={{ position: [5, 5, 5], fov: 75 }}
+        shadows
+        className="w-full h-full bg-gray-900"
+      >
+        <VisualizationScene />
+        <OrbitControls enableDamping dampingFactor={0.05} />
+      </Canvas>
+    </div>
+  );
+}
+
+export default App;
