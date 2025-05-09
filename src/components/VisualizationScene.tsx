@@ -16,15 +16,38 @@ interface DigitPoint {
 function DigitBillboard({ position, texture, onClick }: { position: [number, number, number]; texture: THREE.Texture; onClick: () => void }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const { camera } = useThree();
+  const [hovered, setHovered] = useState(false);
+  const [scale, setScale] = useState(1);
+
   useFrame(() => {
     if (meshRef.current) {
       meshRef.current.lookAt(camera.position);
+      // Smooth scale animation
+      meshRef.current.scale.lerp(new THREE.Vector3(scale, scale, scale), 0.1);
     }
   });
+
   return (
-    <mesh ref={meshRef} position={position} onClick={onClick}>
+    <mesh 
+      ref={meshRef} 
+      position={position} 
+      onClick={onClick}
+      onPointerOver={() => {
+        setHovered(true);
+        setScale(1.2);
+      }}
+      onPointerOut={() => {
+        setHovered(false);
+        setScale(1);
+      }}
+    >
       <planeGeometry args={[1.5, 1.5]} />
-      <meshBasicMaterial map={texture} transparent />
+      <meshBasicMaterial 
+        map={texture} 
+        transparent 
+        opacity={hovered ? 1 : 0.8}
+        color={hovered ? '#ffffff' : '#cccccc'}
+      />
     </mesh>
   );
 }

@@ -29,16 +29,23 @@ function App() {
 
   return (
     <div className="relative w-screen h-screen">
-      <LoadingScreen />
-      <DigitDetail />
-      <Canvas
-        camera={{ position: [0, 0, 40], fov: 60 }}
-        shadows
-        className="w-full h-full bg-gray-900"
-      >
-        <VisualizationScene />
-        <OrbitControls enableDamping dampingFactor={0.05} />
-      </Canvas>
+      {/* 3D Scene */}
+      <div className="absolute inset-0">
+        <Canvas
+          camera={{ position: [0, 0, 40], fov: 60 }}
+          shadows
+          className="w-full h-full bg-gray-900"
+        >
+          <VisualizationScene />
+          <OrbitControls enableDamping dampingFactor={0.05} />
+        </Canvas>
+      </div>
+
+      {/* UI Overlay */}
+      <div className="absolute inset-0 pointer-events-none">
+        <LoadingScreen />
+        <DigitDetail />
+      </div>
     </div>
   );
 }

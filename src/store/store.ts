@@ -7,6 +7,7 @@ interface DigitPoint {
   digit: number;
   confidence: number;
   latentVector: number[];
+  imageUrl: string;
 }
 
 interface Store {
