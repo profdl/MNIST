@@ -32,7 +32,7 @@ function App() {
       <LoadingScreen />
       <DigitDetail />
       <Canvas
-        camera={{ position: [5, 5, 5], fov: 75 }}
+        camera={{ position: [0, 0, 40], fov: 60 }}
         shadows
         className="w-full h-full bg-gray-900"
       >

@@ -1,8 +1,9 @@
 import { useRef, useState, useEffect } from 'react';
-import { useFrame, useLoader } from '@react-three/fiber';
+import { useFrame, useLoader, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useStore } from '../store/store';
 import { MNISTData, loadMNISTData } from '../utils/mnist';
+import React from 'react';
 
 interface DigitPoint {
   position: [number, number, number];
@@ -10,6 +11,22 @@ interface DigitPoint {
   confidence: number;
   latentVector: number[];
   imageUrl: string;
+}
+
+function DigitBillboard({ position, texture, onClick }: { position: [number, number, number]; texture: THREE.Texture; onClick: () => void }) {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const { camera } = useThree();
+  useFrame(() => {
+    if (meshRef.current) {
+      meshRef.current.lookAt(camera.position);
+    }
+  });
+  return (
+    <mesh ref={meshRef} position={position} onClick={onClick}>
+      <planeGeometry args={[1.5, 1.5]} />
+      <meshBasicMaterial map={texture} transparent />
+    </mesh>
+  );
 }
 
 export function VisualizationScene() {
@@ -54,9 +71,10 @@ export function VisualizationScene() {
     <group ref={pointsRef}>
       {/* Render MNIST points as images */}
       {mnistData.map((data, index) => (
-        <mesh
+        <DigitBillboard
           key={index}
           position={data.latentVector as [number, number, number]}
+          texture={textures[index]}
           onClick={() => handlePointClick({
             position: data.latentVector as [number, number, number],
             digit: data.label,
@@ -64,10 +82,7 @@ export function VisualizationScene() {
             latentVector: data.latentVector,
             imageUrl: data.imageUrl
           })}
-        >
-          <planeGeometry args={[0.25, 0.25]} />
-          <meshBasicMaterial map={textures[index]} transparent />
-        </mesh>
+        />
       ))}
 
       {/* Grid helper */}
