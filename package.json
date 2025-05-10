@@ -12,12 +12,7 @@
   "dependencies": {
     "@react-three/drei": "^9.89.0",
     "@react-three/fiber": "^8.15.11",
-    "@tensorflow/tfjs": "^1.2.11",
-    "@tensorflow/tfjs-converter": "^1.2.11",
-    "@tensorflow/tfjs-core": "^1.2.11",
-    "ml5": "^0.12.2",
-    "node-fetch": "^2.7.0",
-    "pngjs": "^7.0.0",
+    "@tensorflow/tfjs": "^4.17.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "three": "^0.159.0",

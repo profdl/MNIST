@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { VisualizationScene } from './components/VisualizationScene';
@@ -15,7 +15,6 @@ declare global {
       meshStandardMaterial: any;
       ambientLight: any;
       pointLight: any;
-      div: any;
     }
   }
 }
